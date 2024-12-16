@@ -1,3 +1,4 @@
+import { generateLuckyMessage } from "@/services/ai/generator";
 import React, { useRef, useState } from "react";
 import {
   View,
@@ -9,26 +10,17 @@ import {
 
 export default function Home() {
   const [isCookieBroken, setIsCookieBroken] = useState(false);
-  const [fortune, setFortune] = useState("");
+  const [cookieMessage, setCookieMessage] = useState("");
 
   const leftCookieAnim = useRef(new Animated.Value(0)).current;
   const rightCookieAnim = useRef(new Animated.Value(0)).current;
   const paperOpacity = useRef(new Animated.Value(0)).current;
   const paperSlide = useRef(new Animated.Value(-20)).current;
 
-  const fortunes = [
-    "A sorte está a seu favor hoje!",
-    "Grandes oportunidades estão vindo.",
-    "Seja paciente, as coisas boas chegam com o tempo.",
-    "Alguém especial pensa em você agora.",
-    "Você está prestes a alcançar algo incrível!",
-  ];
-
-  const handlePress = () => {
+  const handlePress = async () => {
     if (!isCookieBroken) {
-      const randomFortune =
-        fortunes[Math.floor(Math.random() * fortunes.length)];
-      setFortune(randomFortune);
+      const message = await generateLuckyMessage();
+      setCookieMessage(message);
 
       Animated.parallel([
         Animated.timing(leftCookieAnim, {
@@ -59,7 +51,7 @@ export default function Home() {
 
   const reset = () => {
     setIsCookieBroken(false);
-    setFortune("");
+    setCookieMessage("");
     leftCookieAnim.setValue(0);
     rightCookieAnim.setValue(0);
     paperOpacity.setValue(0);
@@ -96,7 +88,7 @@ export default function Home() {
           },
         ]}
       >
-        <Text style={styles.message}>{fortune}</Text>
+        <Text style={styles.message}>{cookieMessage}</Text>
       </Animated.View>
 
       {isCookieBroken && (
