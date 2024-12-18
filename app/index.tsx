@@ -1,16 +1,14 @@
-import { generateLuckyMessage } from "@/services/ai/generator";
 import React, { useRef, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Animated,
-  StyleSheet,
-} from "react-native";
+import { generateLuckyMessage } from "@/services/ai/generator";
+import { useTheme } from "@/hooks/useTheme";
+import { View, Animated, TouchableOpacity, Text } from "react-native";
+import { getStyles } from "./styles";
 
 export default function Home() {
   const [isCookieBroken, setIsCookieBroken] = useState(false);
   const [cookieMessage, setCookieMessage] = useState("");
+
+  const { theme } = useTheme();
 
   const leftCookieAnim = useRef(new Animated.Value(0)).current;
   const rightCookieAnim = useRef(new Animated.Value(0)).current;
@@ -58,6 +56,8 @@ export default function Home() {
     paperSlide.setValue(-20);
   };
 
+  const styles = getStyles(theme);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePress} disabled={isCookieBroken}>
@@ -99,55 +99,3 @@ export default function Home() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f8f8f8",
-  },
-  cookieContainer: {
-    flexDirection: "row",
-    backgroundColor: "blue",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 200,
-    height: 150,
-    margin: 0,
-    padding: 0,
-    position: "absolute",
-  },
-  cookie: {
-    width: 100,
-    height: 100,
-  },
-  paper: {
-    position: "absolute",
-    backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    elevation: 2,
-  },
-  message: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#222222",
-  },
-  resetButton: {
-    position: "absolute",
-    bottom: "10%",
-    padding: 10,
-    backgroundColor: "#222222",
-    borderRadius: 5,
-  },
-  resetButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-});
