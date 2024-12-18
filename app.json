@@ -14,13 +14,16 @@
       "backgroundColor": "#00000"
     },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.gabrielbarth.fortunecookie",
+      "supportsTablet": true,
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.gabrielbarth.fortunecookie"
     },
     "web": {
       "bundler": "metro",
@@ -41,6 +44,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "71409a0e-e089-4cae-8fb5-6d86614ba853"
+      }
     }
   }
 }
