@@ -1,14 +1,18 @@
 import React, { useRef, useState } from "react";
-import { generateLuckyMessage } from "@/services/ai/generator";
-import { useTheme } from "@/hooks/useTheme";
 import { View, Animated, TouchableOpacity, Text } from "react-native";
+import { generateLuckyMessage } from "@/services/ai/generator";
+import { Language, useLanguage } from "@/hooks/useLanguage";
+import { useTheme } from "@/hooks/useTheme";
+import { Switch } from "@/components/Switch";
+import { ThemeEnum } from "@/constants/theme";
 import { getStyles } from "./styles";
 
 export default function Home() {
   const [isCookieBroken, setIsCookieBroken] = useState(false);
   const [cookieMessage, setCookieMessage] = useState("");
 
-  const { theme } = useTheme();
+  const { language, handleSwitchLanguage } = useLanguage();
+  const { theme, themeName, handleSwitchTheme } = useTheme();
 
   const leftCookieAnim = useRef(new Animated.Value(0)).current;
   const rightCookieAnim = useRef(new Animated.Value(0)).current;
@@ -17,7 +21,7 @@ export default function Home() {
 
   const handlePress = async () => {
     if (!isCookieBroken) {
-      const message = await generateLuckyMessage();
+      const message = await generateLuckyMessage(language);
       setCookieMessage(message);
 
       Animated.parallel([
@@ -56,44 +60,63 @@ export default function Home() {
     paperSlide.setValue(-20);
   };
 
+  const isEnglish = language === Language.english;
+  const isDarkMode = themeName === ThemeEnum.dark;
+
+  const buttonText = isEnglish ? "Try your luck" : "Tente a sorte";
   const styles = getStyles(theme);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress} disabled={isCookieBroken}>
-        <View style={styles.cookieContainer}>
-          <Animated.Image
-            source={require("../assets/images/fortune-cookie-left.png")}
-            style={[
-              styles.image,
-              { transform: [{ translateX: leftCookieAnim }] },
-            ]}
-          />
-          <Animated.Image
-            source={require("../assets/images/fortune-cookie-right.png")}
-            style={[
-              styles.image,
-              { transform: [{ translateX: rightCookieAnim }] },
-            ]}
-          />
-        </View>
-      </TouchableOpacity>
+      <View style={styles.switchContainer}>
+        <Switch
+          value={isEnglish}
+          onChange={handleSwitchLanguage}
+          iconSource={require("../assets/images/us-flag.png")}
+        />
+        <Switch
+          value={isDarkMode}
+          onChange={handleSwitchTheme}
+          iconSource={require("../assets/images/moon.png")}
+        />
+      </View>
 
-      <Animated.View
-        style={[
-          styles.paper,
-          {
-            opacity: paperOpacity,
-            transform: [{ translateY: paperSlide }],
-          },
-        ]}
-      >
-        <Text style={styles.message}>{cookieMessage}</Text>
-      </Animated.View>
+      <View style={styles.content}>
+        <TouchableOpacity onPress={handlePress} disabled={isCookieBroken}>
+          <View style={styles.cookieContainer}>
+            <Animated.Image
+              source={require("../assets/images/fortune-cookie-left.png")}
+              style={[
+                styles.image,
+                { transform: [{ translateX: leftCookieAnim }] },
+              ]}
+            />
+            <Animated.Image
+              source={require("../assets/images/fortune-cookie-right.png")}
+              style={[
+                styles.image,
+                { transform: [{ translateX: rightCookieAnim }] },
+              ]}
+            />
+          </View>
+        </TouchableOpacity>
+
+        <Animated.View
+          style={[
+            styles.paper,
+            {
+              opacity: paperOpacity,
+              transform: [{ translateY: paperSlide }],
+            },
+          ]}
+        >
+          <Text style={styles.message}>{cookieMessage}</Text>
+        </Animated.View>
+      </View>
 
       {isCookieBroken && (
-        <TouchableOpacity onPress={reset} style={styles.resetButton}>
-          <Text style={styles.resetButtonText}>Tentar novamente</Text>
+        <TouchableOpacity onPress={reset} style={styles.retryButton}>
+          <Text style={styles.resetButtonText}>{buttonText}</Text>
         </TouchableOpacity>
       )}
     </View>

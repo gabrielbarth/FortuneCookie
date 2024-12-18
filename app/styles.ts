@@ -5,26 +5,25 @@ const getStyles = (theme: ThemeProperties) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: "center",
+      padding: 20,
       alignItems: "center",
       backgroundColor: theme.background,
     },
     switchContainer: {
+      width: "100%",
+      marginTop: 40,
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "center",
-      position: "absolute",
-      top: 50,
+      justifyContent: "space-between",
       marginVertical: 10,
     },
-    flag: {
-      width: 25,
-      height: 25,
-      marginHorizontal: 10,
+    content: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
     },
     cookieContainer: {
       flexDirection: "row",
-      backgroundColor: "blue",
       justifyContent: "center",
       alignItems: "center",
     },
@@ -54,11 +53,11 @@ const getStyles = (theme: ThemeProperties) =>
       textAlign: "center",
       color: theme.text,
     },
-    resetButton: {
+    retryButton: {
       position: "absolute",
       bottom: "10%",
       padding: 10,
-      backgroundColor: theme.primary,
+      backgroundColor: theme.gray,
       borderRadius: 5,
     },
     resetButtonText: {

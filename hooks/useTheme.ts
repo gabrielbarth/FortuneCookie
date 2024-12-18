@@ -22,7 +22,7 @@ const useTheme = () => {
 
   const theme = useMemo(() => themeColors[themeName], [themeName]);
 
-  return { theme, handleSwitchTheme };
+  return { theme, handleSwitchTheme, themeName };
 };
 
 export { useTheme };

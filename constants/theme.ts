@@ -25,7 +25,7 @@ const theme: Theme = {
     green: "#4CAF50",
     red: "#f44336",
     tint: "#0a7ea4",
-    gray: "#687076",
+    gray: "#9BA1A6",
   },
   [ThemeEnum.dark]: {
     background: "#212121",
@@ -34,7 +34,7 @@ const theme: Theme = {
     green: "#69C96C",
     red: "#F5756C",
     tint: "#81b0ff",
-    gray: "#9BA1A6",
+    gray: "#5A6166",
   },
 };
 
