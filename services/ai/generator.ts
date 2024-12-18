@@ -44,9 +44,12 @@ const generateLuckyMessage = async (
       temperature: 1,
       max_tokens: 1024,
     });
+    const message = chatCompletion.choices[0]?.message.content;
 
-    const response = chatCompletion.choices[0]?.message.content;
-    if (response) return response;
+    if (message) {
+      if (__DEV__) console.log("message returned from ai:", message);
+      return message;
+    }
 
     throw new Error("No response from AI");
   } catch (error) {
@@ -55,6 +58,8 @@ const generateLuckyMessage = async (
     const fallbackMessages = fallbackLuckyMessages[language];
     const randomMessage =
       fallbackMessages[Math.floor(Math.random() * fallbackMessages.length)];
+
+    if (__DEV__) console.log("message returned from fallback:", randomMessage);
 
     return randomMessage;
   }
