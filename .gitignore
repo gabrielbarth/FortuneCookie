@@ -9,6 +9,7 @@ dist/
 web-build/
 expo-env.d.ts
 package-lock.json
+yarn.lock
 .env
 
 # Native
