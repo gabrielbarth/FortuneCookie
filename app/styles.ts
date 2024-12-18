@@ -30,8 +30,6 @@ const getStyles = (theme: ThemeProperties) =>
     image: {
       width: 200,
       height: 150,
-      margin: 0,
-      padding: 0,
       position: "absolute",
     },
     cookie: {

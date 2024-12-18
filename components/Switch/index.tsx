@@ -3,9 +3,11 @@ import {
   View,
   Switch as SwitchComponent,
   ImageSourcePropType,
+  Platform,
 } from "react-native";
 import { useTheme } from "@/hooks/useTheme";
 import { getStyles } from "./styles";
+import { useMemo } from "react";
 
 interface SwitchProps {
   value: boolean;
@@ -16,6 +18,7 @@ interface SwitchProps {
 const Switch = ({ value, onChange, iconSource }: SwitchProps) => {
   const { theme } = useTheme();
 
+  const isAndroid = Platform.OS === "android";
   const styles = getStyles(theme);
 
   return (
@@ -23,7 +26,7 @@ const Switch = ({ value, onChange, iconSource }: SwitchProps) => {
       <SwitchComponent
         value={value}
         onValueChange={onChange}
-        thumbColor={value ? theme.background : theme.background}
+        thumbColor={isAndroid ? theme.text : theme.background}
         trackColor={{ false: theme.gray, true: theme.gray }}
       />
       {iconSource && (
