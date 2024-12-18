@@ -9,6 +9,7 @@ import { getStyles } from "./styles";
 
 export default function Home() {
   const [isCookieBroken, setIsCookieBroken] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [cookieMessage, setCookieMessage] = useState("");
 
   const { language, handleSwitchLanguage } = useLanguage();
@@ -19,41 +20,47 @@ export default function Home() {
   const paperOpacity = useRef(new Animated.Value(0)).current;
   const paperSlide = useRef(new Animated.Value(-20)).current;
 
-  const handlePress = async () => {
+  const handleAnimation = () => {
+    Animated.parallel([
+      Animated.timing(leftCookieAnim, {
+        toValue: -120,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rightCookieAnim, {
+        toValue: 120,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(paperOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(paperSlide, {
+        toValue: 20,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      setIsCookieBroken(true);
+      setIsLoading(false);
+    });
+  };
+
+  const handlePressCookie = async () => {
     if (!isCookieBroken) {
+      setIsLoading(true);
       const message = await generateLuckyMessage(language);
       setCookieMessage(message);
-
-      Animated.parallel([
-        Animated.timing(leftCookieAnim, {
-          toValue: -120,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(rightCookieAnim, {
-          toValue: 120,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(paperOpacity, {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-        }),
-        Animated.timing(paperSlide, {
-          toValue: 20,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        setIsCookieBroken(true);
-      });
+      handleAnimation();
     }
   };
 
-  const reset = () => {
+  const resetCookie = () => {
     setIsCookieBroken(false);
     setCookieMessage("");
+    setIsLoading(false);
     leftCookieAnim.setValue(0);
     rightCookieAnim.setValue(0);
     paperOpacity.setValue(0);
@@ -82,7 +89,10 @@ export default function Home() {
       </View>
 
       <View style={styles.content}>
-        <TouchableOpacity onPress={handlePress} disabled={isCookieBroken}>
+        <TouchableOpacity
+          onPress={handlePressCookie}
+          disabled={isCookieBroken || isLoading}
+        >
           <View style={styles.cookieContainer}>
             <Animated.Image
               source={require("../assets/images/fortune-cookie-left.png")}
@@ -115,7 +125,7 @@ export default function Home() {
       </View>
 
       {isCookieBroken && (
-        <TouchableOpacity onPress={reset} style={styles.retryButton}>
+        <TouchableOpacity onPress={resetCookie} style={styles.retryButton}>
           <Text style={styles.resetButtonText}>{buttonText}</Text>
         </TouchableOpacity>
       )}
