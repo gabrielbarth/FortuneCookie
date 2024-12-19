@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { View, Animated, TouchableOpacity, Text } from "react-native";
+import { useAssets } from "expo-asset";
 import { generateLuckyMessage } from "@/services/ai/generator";
 import { Language, useLanguage } from "@/hooks/useLanguage";
 import { useTheme } from "@/hooks/useTheme";
@@ -67,6 +68,11 @@ export default function Home() {
     paperSlide.setValue(-20);
   };
 
+  const [assets, error] = useAssets([
+    require("../assets/images/us-flag.png"),
+    require("../assets/images/moon.png"),
+  ]);
+
   const isEnglish = language === Language.english;
   const isDarkMode = themeName === ThemeEnum.dark;
 
@@ -79,12 +85,12 @@ export default function Home() {
         <Switch
           value={isEnglish}
           onChange={handleSwitchLanguage}
-          iconSource={require("../assets/images/us-flag.png")}
+          iconSource={assets && assets[0]}
         />
         <Switch
           value={isDarkMode}
           onChange={handleSwitchTheme}
-          iconSource={require("../assets/images/moon.png")}
+          iconSource={assets && assets[1]}
         />
       </View>
 

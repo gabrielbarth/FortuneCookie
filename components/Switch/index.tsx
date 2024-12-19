@@ -1,18 +1,12 @@
-import {
-  Image,
-  View,
-  Switch as SwitchComponent,
-  ImageSourcePropType,
-  Platform,
-} from "react-native";
+import { Image, View, Switch as SwitchComponent, Platform } from "react-native";
 import { useTheme } from "@/hooks/useTheme";
 import { getStyles } from "./styles";
-import { useMemo } from "react";
+import { Asset } from "expo-asset";
 
 interface SwitchProps {
   value: boolean;
   onChange: (value: boolean) => void;
-  iconSource?: ImageSourcePropType;
+  iconSource?: Asset;
 }
 
 const Switch = ({ value, onChange, iconSource }: SwitchProps) => {
@@ -30,7 +24,11 @@ const Switch = ({ value, onChange, iconSource }: SwitchProps) => {
         trackColor={{ false: theme.gray, true: theme.gray }}
       />
       {iconSource && (
-        <Image source={iconSource} style={styles.icon} resizeMode="contain" />
+        <Image
+          source={{ uri: iconSource.uri }}
+          style={styles.icon}
+          resizeMode="contain"
+        />
       )}
     </View>
   );
