@@ -40,6 +40,12 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": ["assets/images"]
+        }
       ]
     ],
     "experiments": {

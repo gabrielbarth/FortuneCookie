@@ -71,6 +71,8 @@ export default function Home() {
   const [assets, error] = useAssets([
     require("../assets/images/us-flag.png"),
     require("../assets/images/moon.png"),
+    require("../assets/images/fortune-cookie-left.png"),
+    require("../assets/images/fortune-cookie-right.png"),
   ]);
 
   const isEnglish = language === Language.english;
@@ -101,14 +103,14 @@ export default function Home() {
         >
           <View style={styles.cookieContainer}>
             <Animated.Image
-              source={require("../assets/images/fortune-cookie-left.png")}
+              source={{ uri: assets && assets[2].uri }}
               style={[
                 styles.image,
                 { transform: [{ translateX: leftCookieAnim }] },
               ]}
             />
             <Animated.Image
-              source={require("../assets/images/fortune-cookie-right.png")}
+              source={{ uri: assets && assets[3].uri }}
               style={[
                 styles.image,
                 { transform: [{ translateX: rightCookieAnim }] },
