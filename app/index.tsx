@@ -69,10 +69,10 @@ export default function Home() {
   };
 
   const [assets, error] = useAssets([
-    require("../assets/images/us-flag.png"),
+    require("../assets/images/us_flag.png"),
     require("../assets/images/moon.png"),
-    require("../assets/images/fortune-cookie-left.png"),
-    require("../assets/images/fortune-cookie-right.png"),
+    require("../assets/images/fortune_cookie_left.png"),
+    require("../assets/images/fortune_cookie_right.png"),
   ]);
 
   const isEnglish = language === Language.english;
