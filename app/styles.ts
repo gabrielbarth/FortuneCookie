@@ -52,11 +52,13 @@ const getStyles = (theme: ThemeProperties) =>
       color: theme.text,
     },
     retryButton: {
-      position: "absolute",
-      bottom: "10%",
-      padding: 10,
+      padding: 15,
       backgroundColor: theme.gray,
       borderRadius: 5,
+    },
+    footerContainer: {
+      position: "absolute",
+      bottom: "10%",
     },
     resetButtonText: {
       color: theme.text,

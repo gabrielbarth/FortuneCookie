@@ -5,6 +5,7 @@ import { generateLuckyMessage } from "@/services/ai/generator";
 import { Language, useLanguage } from "@/hooks/useLanguage";
 import { useTheme } from "@/hooks/useTheme";
 import { Switch } from "@/components/Switch";
+import { Loading } from "@/components/Loading";
 import { ThemeEnum } from "@/constants/theme";
 import { getStyles } from "./styles";
 
@@ -44,8 +45,8 @@ export default function Home() {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      setIsCookieBroken(true);
       setIsLoading(false);
+      setIsCookieBroken(true);
     });
   };
 
@@ -53,8 +54,8 @@ export default function Home() {
     if (!isCookieBroken) {
       setIsLoading(true);
       const message = await generateLuckyMessage(language);
-      setCookieMessage(message);
       handleAnimation();
+      setCookieMessage(message);
     }
   };
 
@@ -78,7 +79,12 @@ export default function Home() {
   const isEnglish = language === Language.english;
   const isDarkMode = themeName === ThemeEnum.dark;
 
-  const buttonText = isEnglish ? "Try your luck" : "Tente a sorte";
+  const buttonText = isEnglish
+    ? "Try new luck message"
+    : "Tente uma nova mensagem de sorte";
+  const loadingText = isEnglish
+    ? "Loading your luck message.."
+    : "Carregando sua mensagem da sorte..";
   const styles = getStyles(theme);
 
   return (
@@ -131,12 +137,14 @@ export default function Home() {
           <Text style={styles.message}>{cookieMessage}</Text>
         </Animated.View>
       </View>
-
-      {isCookieBroken && (
-        <TouchableOpacity onPress={resetCookie} style={styles.retryButton}>
-          <Text style={styles.resetButtonText}>{buttonText}</Text>
-        </TouchableOpacity>
-      )}
+      <View style={styles.footerContainer}>
+        {isLoading && <Loading description={loadingText} />}
+        {isCookieBroken && (
+          <TouchableOpacity onPress={resetCookie} style={styles.retryButton}>
+            <Text style={styles.resetButtonText}>{buttonText}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 }
