@@ -15,7 +15,7 @@ export default function Home() {
   const [cookieMessage, setCookieMessage] = useState("");
 
   const { language, handleSwitchLanguage } = useLanguage();
-  const { theme, themeName, handleSwitchTheme } = useTheme();
+  const { theme, themeName, toggleTheme } = useTheme();
 
   const leftCookieAnim = useRef(new Animated.Value(0)).current;
   const rightCookieAnim = useRef(new Animated.Value(0)).current;
@@ -97,7 +97,7 @@ export default function Home() {
         />
         <Switch
           value={isDarkMode}
-          onChange={handleSwitchTheme}
+          onChange={toggleTheme}
           iconSource={assets && assets[1]}
         />
       </View>
