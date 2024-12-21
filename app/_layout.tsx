@@ -1,15 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { Stack } from "expo-router";
 import { useTheme } from "@/hooks/useTheme";
+import { ThemeProvider } from "@/context/themeContext";
 
 export default function Layout() {
-  const { theme } = useTheme();
   return (
-    <>
-      <StatusBar backgroundColor={theme.background} />
+    <ThemeProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
-    </>
+    </ThemeProvider>
   );
 }
