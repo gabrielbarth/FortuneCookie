@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { useColorScheme } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import {
   ThemeEnum,
   ThemeProperties,
@@ -37,9 +38,15 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   const theme = useMemo(() => themeColors[themeName], [themeName]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, themeName }}>
-      {children}
-    </ThemeContext.Provider>
+    <>
+      <StatusBar
+        backgroundColor={theme.background}
+        style={themeName === ThemeEnum.light ? "dark" : "light"}
+      />
+      <ThemeContext.Provider value={{ theme, toggleTheme, themeName }}>
+        {children}
+      </ThemeContext.Provider>
+    </>
   );
 };
 
