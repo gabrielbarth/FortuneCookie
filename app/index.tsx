@@ -53,7 +53,7 @@ export default function Home() {
   const handlePressCookie = async () => {
     if (!isCookieBroken) {
       setIsLoading(true);
-      const message = await generateLuckyMessage(language);
+      const message = await generateLuckyMessage({ language, timeout: 2000 });
       handleAnimation();
       setCookieMessage(message);
     }
