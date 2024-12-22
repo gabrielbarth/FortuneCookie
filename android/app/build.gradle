@@ -102,10 +102,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('production-release-key.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'gabriel98'
+            storeFile file(project.property("KEYSTORE_FILE"))
+            storePassword project.property("KEYSTORE_PASSWORD")
+            keyAlias project.property("KEY_ALIAS")
+            keyPassword project.property("KEY_PASSWORD")
         }
     }
     buildTypes {
